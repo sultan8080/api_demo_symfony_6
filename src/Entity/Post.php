@@ -19,6 +19,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Defines the properties of the Post entity to represent the blog posts.
@@ -35,19 +36,22 @@ use ApiPlatform\Metadata\ApiResource;
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 #[ORM\Table(name: 'symfony_demo_post')]
 #[UniqueEntity(fields: ['slug'], errorPath: 'title', message: 'post.slug_unique')]
-#[ApiResource]
+#[ApiResource(normalizationContext: ['groups' => ['okay']])]
 class Post
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER)]
+    #[Groups('okay')]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::STRING)]
     #[Assert\NotBlank]
+    #[Groups('okay')]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::STRING)]
+    #[Groups('okay')]
     private ?string $slug = null;
 
     #[ORM\Column(type: Types::STRING)]
